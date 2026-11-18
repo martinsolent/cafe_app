@@ -42,7 +42,7 @@ The only external files are the Material Web library (from jsDelivr) and the Rob
 
 ## How to run it
 
-Open `cafe-dashboard.html` in a modern browser with an internet connection (needed to load Material Web). No installation is required.
+Open `index.html` in a modern browser with an internet connection (needed to load Material Web). No installation is required.
 
 ## Limitations
 
