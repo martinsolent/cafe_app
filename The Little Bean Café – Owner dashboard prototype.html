@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Little Bean Café – Owner dashboard prototype</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<style>
+:root{color-scheme:light dark;--bg:#fffbf8;--card:#f6ece4;--ink:#1f1a17;--mut:#5d4f46;--ac:#6b4226;--onac:#fff;--sc:#f2dfd1;--onsc:#2b1709;--line:#d9ccc3;--ol:#7d6f66;--lowbg:#fde8e6;--lowfg:#8c1d18;--okbg:#e3f3e4;--okfg:#1b5e20;--fc:#1a5fb4;
+--md-sys-color-primary:var(--ac);--md-sys-color-on-primary:var(--onac);--md-sys-color-secondary-container:var(--sc);--md-sys-color-on-secondary-container:var(--onsc);--md-sys-color-surface:var(--bg);--md-sys-color-surface-container:var(--card);--md-sys-color-surface-container-high:var(--card);--md-sys-color-surface-container-highest:var(--card);--md-sys-color-on-surface:var(--ink);--md-sys-color-on-surface-variant:var(--mut);--md-sys-color-outline:var(--ol);--md-sys-color-outline-variant:var(--line);--md-focus-ring-color:var(--fc);--md-ref-typeface-brand:Roboto,Arial,sans-serif;--md-ref-typeface-plain:Roboto,Arial,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1613;--card:#2a211c;--ink:#efe4dc;--mut:#d3c4ba;--ac:#e8b998;--onac:#3b2110;--sc:#4a372b;--onsc:#f2dfd1;--line:#4b3d34;--ol:#a89a90;--lowbg:#5c1f1a;--lowfg:#ffd9d4;--okbg:#1d3a20;--okfg:#b9e6bc;--fc:#8ab4f8}}
+:root[data-theme="dark"]{--bg:#1c1613;--card:#2a211c;--ink:#efe4dc;--mut:#d3c4ba;--ac:#e8b998;--onac:#3b2110;--sc:#4a372b;--onsc:#f2dfd1;--line:#4b3d34;--ol:#a89a90;--lowbg:#5c1f1a;--lowfg:#ffd9d4;--okbg:#1d3a20;--okfg:#b9e6bc;--fc:#8ab4f8}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 Roboto,Arial,sans-serif}
+:focus-visible{outline:3px solid var(--fc);outline-offset:2px}
+h1:focus{outline:none}
+h1{font-size:1.75rem;margin:0 0 4px}h2{font-size:1.1rem;margin:0 0 8px}
+.skip{position:absolute;left:-999px;background:var(--ac);color:var(--onac);padding:8px 12px}.skip:focus{left:8px;top:8px;z-index:9}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:12px 24px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px}.brand span{display:block;color:var(--mut);font-size:.85rem}
+main{max-width:1200px;margin:0 auto;padding:24px}
+.sub{color:var(--mut);margin:0 0 20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.card{background:var(--card);border-radius:16px;padding:20px}
+.big{font-size:2.25rem;font-weight:700;margin:0;color:var(--ac)}.note{margin:0;color:var(--mut);font-size:.9rem}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:20px}
+.split{display:grid;grid-template-columns:3fr 2fr;gap:24px;align-items:start}
+@media (max-width:900px){.split{grid-template-columns:1fr}main{padding:16px}}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left}
+.n{text-align:right}tr.hl{background:var(--card)}tfoot th,tfoot td{font-weight:700}
+.sortb,.link{font:inherit;color:inherit;background:none;border:0;padding:4px;cursor:pointer;font-weight:500}
+.link{color:var(--ac);text-decoration:underline}
+.chart{background:var(--card);border-radius:16px;padding:20px}
+.chart ul{list-style:none;margin:0;padding:0}
+.chart li{display:grid;grid-template-columns:9.5em 1fr 3.5em;gap:8px;align-items:center;font-size:.85rem;margin:4px 0}
+.bt{background:var(--line);border-radius:4px;height:14px;display:block}.bf{background:var(--ac);height:14px;border-radius:4px;display:block}
+.bv{text-align:right}
+.cols{display:flex;gap:8px;align-items:flex-end;height:200px}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;font-size:.8rem}
+.cb{background:var(--ac);width:100%;border-radius:4px 4px 0 0;display:block}
+.pill{display:inline-block;background:var(--sc);color:var(--onsc);border-radius:8px;padding:2px 10px;font-size:.85rem}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:8px;padding:2px 10px;font-size:.85rem;font-weight:500}
+.low{background:var(--lowbg);color:var(--lowfg)}.ok{background:var(--okbg);color:var(--okfg)}
+.empty{background:var(--card);border-radius:12px;padding:16px}
+footer{display:flex;gap:24px;flex-wrap:wrap;padding:16px 24px;border-top:1px solid var(--line);color:var(--mut);font-size:.9rem}
+footer a{color:var(--ac)}
+md-outlined-text-field{min-width:260px}
+</style>
+<script type="module">import 'https://cdn.jsdelivr.net/npm/@material/web@2.2.0/all.js/+esm';</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<div id="live" class="vh" aria-live="polite"></div>
+
+<header class="top">
+  <div class="brand">
+    <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" rx="10" fill="#6b4226"/><path d="M9 14h14v6a6 6 0 0 1-6 6h-2a6 6 0 0 1-6-6zM23 16h2a3 3 0 0 1 0 6h-2" fill="none" stroke="#fff" stroke-width="2"/></svg>
+    <div><strong>The Little Bean Café</strong><span>Owner dashboard</span></div>
+  </div>
+  <nav aria-label="Other areas"><md-text-button data-nyi>Reports</md-text-button><md-text-button data-nyi>Settings</md-text-button></nav>
+</header>
+<md-tabs id="tabs" aria-label="Dashboard sections">
+  <md-primary-tab>Overview</md-primary-tab><md-primary-tab>Sales by item</md-primary-tab><md-primary-tab>Stock levels</md-primary-tab>
+</md-tabs>
+
+<main id="main">
+<!-- ===== SCREEN 1: OVERVIEW ===== -->
+<section id="s-over">
+  <h1 tabindex="-1">Today at a glance</h1>
+  <p class="sub">Figures so far today, up to 2pm.</p>
+  <div class="cards">
+    <div class="card"><h2>Today’s sales</h2><p class="big" id="kSales"></p><p class="note">Up to 2pm</p></div>
+    <div class="card"><h2>Orders</h2><p class="big" id="kOrders"></p><p class="note">Up to 2pm</p></div>
+    <div class="card"><h2>Busiest hour</h2><p class="big" id="kHour"></p><p class="note" id="kHourN"></p></div>
+  </div>
+  <div class="row">
+    <md-filled-button id="ctaBest">See yesterday’s best sellers</md-filled-button>
+    <md-outlined-button id="ctaStock">Check stock levels</md-outlined-button>
+  </div>
+</section>
+
+<!-- ===== SCREEN 2: SALES BY ITEM ===== -->
+<section id="s-sales" hidden>
+  <h1 tabindex="-1">Sales by item</h1>
+  <p class="sub" id="best"></p>
+  <div class="row">
+    <md-outlined-select id="period" label="Period">
+      <md-select-option value="y" selected><div slot="headline">Yesterday</div></md-select-option>
+      <md-select-option value="t"><div slot="headline">Today so far</div></md-select-option>
+      <md-select-option value="w"><div slot="headline">Last 7 days</div></md-select-option>
+    </md-outlined-select>
+    <md-outlined-text-field id="q" label="Search items" supporting-text="For example: latte or sandwich"></md-outlined-text-field>
+  </div>
+  <div id="salesOut"></div>
+</section>
+
+<!-- ===== SCREEN 3: ITEM DETAILS ===== -->
+<section id="s-detail" hidden>
+  <md-text-button id="back">← Back</md-text-button>
+  <h1 tabindex="-1" id="dName"></h1>
+  <p id="dMeta"></p><p id="dStock"></p>
+  <h2>Last 7 days</h2>
+  <div id="dOut"></div>
+</section>
+
+<!-- ===== SCREEN 4: STOCK LEVELS ===== -->
+<section id="s-stock" hidden>
+  <h1 tabindex="-1">Stock levels</h1>
+  <p class="sub" id="stockSum" role="status"></p>
+  <div class="row">
+    <md-filter-chip id="lowChip" label="Low stock only"></md-filter-chip>
+    <md-outlined-button data-nyi>Create reorder list</md-outlined-button>
+  </div>
+  <div id="stockOut"></div>
+</section>
+</main>
+
+<footer>
+  <span>Prototype with made-up data</span>
+  <a href="#" id="reset">Reset prototype</a>
+  <a href="#" data-nyi>Help</a>
+</footer>
+
+<md-dialog id="nyi">
+  <div slot="headline">Not available yet</div>
+  <div slot="content">This part isn’t in the prototype yet.</div>
+  <div slot="actions"><md-text-button id="nyiClose">Close</md-text-button></div>
+</md-dialog>
+
+<script type="module">
+// ---------- Fake in-memory data ----------
+const RAW=[['Flat White','Coffee',3.4,62,90,40],['Latte','Coffee',3.6,48,70,35],['Cappuccino','Coffee',3.5,41,22,30],['Americano','Coffee',2.9,30,80,25],['Espresso','Coffee',2.5,18,60,15],['Mocha','Coffee',3.9,14,28,12],
+['English Breakfast Tea','Tea',2.6,24,55,15],['Earl Grey Tea','Tea',2.6,16,40,12],['Peppermint Tea','Tea',2.7,11,9,10],['Chai Latte','Tea',3.8,15,31,12],
+['Victoria Sponge Slice','Cake',3.8,17,14,12],['Carrot Cake Slice','Cake',3.9,14,21,10],['Lemon Drizzle Slice','Cake',3.7,15,8,10],['Chocolate Brownie','Cake',3.2,20,26,14],['Fruit Scone with Jam','Cake',3.3,13,18,10],
+['Bacon Roll','Sandwich',4.9,19,15,12],['Cheddar and Pickle Sandwich','Sandwich',5.2,16,20,10],['Coronation Chicken Sandwich','Sandwich',5.6,12,7,8],['Ham and Cheese Toastie','Sandwich',5.4,17,22,12],['Tuna Melt Panini','Sandwich',5.8,9,15,8]];
+const DOW=[1,1.05,1.15,1.3,1.2,.9,.95]; // Wed 11 Nov … Tue 17 Nov 2026
+const rnd=(i,d)=>((i*7919+d*104729+17)*9301%233280)/233280;
+const items=RAW.map(([n,c,p,b,s,r],i)=>{const days=DOW.map((f,d)=>Math.round(b*f*(.85+.3*rnd(i,d))));
+  return{i,n,c,p,s,r,days,today:Math.round(b*.55*(.85+.3*rnd(i,9))),avg:days.reduce((a,x)=>a+x,0)/7}});
+const dl=DOW.map((_,d)=>new Date(2026,10,11+d).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}));
+const PL={y:'yesterday',t:'today so far',w:'in the last 7 days'};
+const val=x=>S.period==='y'?x.days[6]:S.period==='t'?x.today:x.days.reduce((a,u)=>a+u,0);
+const gbp=v=>'£'+v.toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2});
+const $=id=>document.getElementById(id);
+const warn='<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 1 21h22z" fill="currentColor"/><path d="M12 9v6m0 3v.01" stroke="#fff" stroke-width="2"/></svg>';
+const badge=low=>low?`<span class="badge low">${warn} Low stock</span>`:'<span class="badge ok">✓ OK</span>';
+const DEF={sort:'u',dir:-1,period:'y',q:'',low:false,from:'sales',cur:0};
+let S={...DEF};
+
+// ---------- Navigation ----------
+const tabs=$('tabs'),SC=['over','sales','stock'];
+function go(id,focus=true){
+  for(const k of [...SC,'detail'])$('s-'+k).hidden=k!==id;
+  tabs.activeTabIndex=SC.indexOf(id==='detail'?S.from:id);
+  if(id==='sales')renderSales();if(id==='stock')renderStock();if(id==='detail')renderDetail();
+  scrollTo(0,0);if(focus)$('s-'+id).querySelector('h1').focus();
+}
+tabs.addEventListener('change',()=>go(SC[tabs.activeTabIndex],false));
+function openItem(i,from){S.cur=+i;S.from=from;go('detail')}
+
+// ---------- Overview ----------
+function renderOverview(){
+  const u=items.reduce((a,x)=>a+x.today,0),sales=items.reduce((a,x)=>a+x.today*x.p,0),orders=Math.round(u/1.7);
+  const W=[.08,.22,.16,.10,.12,.20,.12],H=['7–8am','8–9am','9–10am','10–11am','11am–12pm','12–1pm','1–2pm'];
+  const m=W.indexOf(Math.max(...W));
+  $('kSales').textContent=gbp(sales);$('kOrders').textContent=orders;$('kHour').textContent=H[m];$('kHourN').textContent=`About ${Math.round(orders*W[m])} orders`;
+}
+
+// ---------- Sales by item ----------
+function renderSales(){
+  const all=items.map(x=>({x,u:val(x),r:val(x)*x.p})),top=[...all].sort((a,b)=>b.u-a.u)[0];
+  $('best').innerHTML=`Best seller ${PL[S.period]}: <strong>${top.x.n}</strong> (${top.u} units, ${gbp(top.r)})`;
+  const q=S.q.trim().toLowerCase(),rows=all.filter(a=>a.x.n.toLowerCase().includes(q));
+  if(!rows.length){$('salesOut').innerHTML=`<p class="empty" role="status">No items match “${S.q.replace(/</g,'&lt;')}”. Check the spelling, or <md-text-button id="clr">clear the search</md-text-button>.</p>`;return}
+  const k=S.sort,d=S.dir;
+  rows.sort((a,b)=>k==='n'?d*a.x.n.localeCompare(b.x.n):k==='c'?d*(a.x.c.localeCompare(b.x.c)||b.u-a.u):d*(a[k]-b[k]));
+  const th=(key,l,num)=>`<th scope="col" class="${num?'n':''}" aria-sort="${k===key?(d>0?'ascending':'descending'):'none'}"><button class="sortb" data-k="${key}">${l}<span aria-hidden="true">${k===key?(d>0?' ▲':' ▼'):''}</span></button></th>`;
+  const m=k==='r'?'r':'u',max=Math.max(...rows.map(a=>a[m]));
+  $('salesOut').innerHTML=`<div class="split"><div class="tw"><table aria-label="Sales by item, ${PL[S.period]}"><thead><tr>${th('n','Item')}${th('c','Category')}${th('u','Units sold',1)}${th('r','Revenue',1)}</tr></thead><tbody>${rows.map(a=>`<tr><td><button class="link" data-item="${a.x.i}">${a.x.n}</button></td><td>${a.x.c}</td><td class="n">${a.u}</td><td class="n">${gbp(a.r)}</td></tr>`).join('')}</tbody></table></div>
+  <div class="chart"><h2>${m==='r'?'Revenue (£)':'Units sold'}, ${PL[S.period]}</h2><ul aria-label="Bar chart of ${m==='r'?'revenue':'units sold'} by item">${rows.map(a=>`<li><span>${a.x.n}</span><span class="bt"><span class="bf" style="width:${a[m]/max*100}%"></span></span><span class="bv">${m==='r'?'£'+Math.round(a.r):a.u}</span></li>`).join('')}</ul></div></div>`;
+}
+$('salesOut').addEventListener('click',e=>{
+  const b=e.target.closest('[data-k]'),it=e.target.closest('[data-item]');
+  if(b){const key=b.dataset.k;if(S.sort===key)S.dir*=-1;else{S.sort=key;S.dir=key==='n'||key==='c'?1:-1}
+    renderSales();$('salesOut').querySelector(`[data-k="${key}"]`).focus();
+    $('live').textContent=`Sorted by ${b.textContent.trim()}, ${S.dir>0?'ascending':'descending'}`}
+  else if(it)openItem(it.dataset.item,'sales');
+  else if(e.target.closest('#clr')){S.q='';$('q').value='';renderSales();$('q').focus()}
+});
+$('q').addEventListener('input',e=>{S.q=e.target.value;renderSales()});
+$('period').addEventListener('change',e=>{S.period=e.target.value;renderSales()});
+
+// ---------- Stock levels ----------
+function renderStock(){
+  const all=items.map(x=>({x,low:x.s<=x.r,d:Math.floor(x.s/x.avg)})),n=all.filter(a=>a.low).length;
+  $('stockSum').textContent=`${n} of ${items.length} items are low on stock.`;
+  const l=all.filter(a=>!S.low||a.low).sort((a,b)=>b.low-a.low||a.d-b.d);
+  $('stockOut').innerHTML=`<md-list aria-label="Stock levels, lowest first">${l.map(a=>`<md-list-item type="button" data-item="${a.x.i}"><div slot="headline">${a.x.n}</div><div slot="supporting-text">${a.x.s} in stock · reorder at ${a.x.r} · about ${a.d} days left</div><div slot="end">${badge(a.low)}</div></md-list-item>`).join('')}</md-list>`;
+}
+$('stockOut').addEventListener('click',e=>{const it=e.target.closest('[data-item]');if(it)openItem(it.dataset.item,'stock')});
+$('lowChip').addEventListener('click',()=>setTimeout(()=>{S.low=$('lowChip').selected;renderStock()},0));
+
+// ---------- Item details ----------
+function renderDetail(){
+  const x=items[S.cur],max=Math.max(...x.days),tot=x.days.reduce((a,u)=>a+u,0);
+  $('back').textContent=`← Back to ${S.from==='stock'?'Stock levels':'Sales by item'}`;
+  $('dName').textContent=x.n;
+  $('dMeta').innerHTML=`<span class="pill">${x.c}</span> <span class="pill">${gbp(x.p)} each</span>`;
+  $('dStock').innerHTML=`${badge(x.s<=x.r)} ${x.s} in stock (reorder at ${x.r})`;
+  $('dOut').innerHTML=`<div class="split"><div class="tw"><table aria-label="Sales for ${x.n}, last 7 days"><thead><tr><th scope="col">Day</th><th scope="col" class="n">Units</th><th scope="col" class="n">Revenue</th></tr></thead><tbody>${x.days.map((u,d)=>`<tr${d===6?' class="hl"':''}><th scope="row">${dl[d]}${d===6?' (yesterday)':''}</th><td class="n">${u}</td><td class="n">${gbp(u*x.p)}</td></tr>`).join('')}</tbody><tfoot><tr><th scope="row">Total</th><td class="n">${tot}</td><td class="n">${gbp(tot*x.p)}</td></tr></tfoot></table></div>
+  <div class="chart"><h2>Units per day</h2><div class="cols" role="img" aria-label="Units sold per day: ${x.days.map((u,d)=>dl[d]+' '+u).join(', ')}">${x.days.map((u,d)=>`<div class="col"><span>${u}</span><span class="cb" style="height:${u/max*150}px"></span><span>${dl[d].split(' ')[0]}</span></div>`).join('')}</div></div></div>`;
+}
+$('back').addEventListener('click',()=>go(S.from));
+
+// ---------- Buttons, dialog, reset ----------
+$('ctaBest').addEventListener('click',()=>{S.period='y';S.sort='u';S.dir=-1;$('period').value='y';go('sales')});
+$('ctaStock').addEventListener('click',()=>go('stock'));
+const dlg=$('nyi');
+document.addEventListener('click',e=>{if(e.target.closest('[data-nyi]')){e.preventDefault();dlg.show()}});
+$('nyiClose').addEventListener('click',()=>dlg.close());
+$('reset').addEventListener('click',e=>{e.preventDefault();S={...DEF};$('q').value='';$('period').value='y';$('lowChip').selected=false;go('over')});
+renderOverview();go('over',false);
+</script>
+</body>
+</html>
